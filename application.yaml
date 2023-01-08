@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/search_engine?serverTimezone=Asia/Yekaterinburg&useSSL=false&requireSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: Battery-10*-
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto:  update # create-drop || update
+    show-sql:  false # false || true
+
+
+# example values
+
+indexing-settings:
+  sites:
+    - url:  https://www.lenta.ru #  https://www.svetlovka.ru
+      name:  Лента.ру #  Svetlovka
+    - url: https://www.skillbox.ru
+      name: Skillbox
+    - url: https://www.playback.ru
+      name: PlayBack.Ru
+  userAgent: SESearchBot
+  referrer: http://www.google.com
+  pageNumberLimit: 10000 # total number for indexed pages
+  delayCrawler: 500 # page scanning delay (ms)
+
