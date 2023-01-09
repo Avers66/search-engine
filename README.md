@@ -1,4 +1,12 @@
 
+
+
+
+![LOGO](https://user-images.githubusercontent.com/122222024/211359036-5e1c49d0-ebca-48c5-a95b-a74f7064678f.png)
+
+
+
+
 Поисковый движок, осуществляющий поиск по заданным интернет-сайтам.
 
 ![IndexingPage](https://user-images.githubusercontent.com/122222024/211211135-960bca9b-03ac-4314-ad99-938928d5e19e.png)
