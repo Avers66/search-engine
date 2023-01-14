@@ -118,10 +118,14 @@ public class SearchService {
         for (LemmaEntity le : listLE) {
             List<Integer> position = lemmaMaker.getPositionWord(content, le.getLemma());
             if (position.isEmpty()) continue;
-            snippet = snippet + " "
-                    + content.substring(position.get(0) - lengthOnePartSnippet/2, position.get(0)-1) + " "
-                    + "<b>" + content.substring(position.get(0),position.get(1)) + "</b> "
-                    + content.substring(position.get(1) + 1 , position.get(1) + lengthOnePartSnippet/2);
+            int start1 = position.get(0) > lengthOnePartSnippet/2 ? position.get(0) - lengthOnePartSnippet/2 : 0;
+            int end1 = position.get(0) - 1;
+            int start2 = position.get(0);
+            int end2 = position.get(1);
+            int start3 = position.get(1) + 1;
+            int end3 = end2 + lengthOnePartSnippet/2 > content.length() ? content.length() - 1 : end2 + lengthOnePartSnippet/2 -1;
+            snippet = snippet + " " + content.substring(start1, end1) + " <b>" + content.substring(start2, end2) + "</b> "
+                    + content.substring(start3, end3);
 
         }
         searchPage.setSnippet(snippet);
