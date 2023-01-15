@@ -7,6 +7,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+        generate_statistics: false
+        jdbc.batch_size: 50
+        order_inserts:  true
     hibernate:
       ddl-auto:  update # create-drop || update
     show-sql:  false # false || true
@@ -26,4 +29,5 @@ indexing-settings:
   referrer: http://www.google.com
   pageNumberLimit: 10000 # total number for indexed pages
   delayCrawler: 500 # page scanning delay (ms)
+
 

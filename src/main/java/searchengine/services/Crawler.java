@@ -6,13 +6,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.yaml.snakeyaml.introspector.Property;
 import searchengine.dto.indexing.IndexingSettings;
 import searchengine.model.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import javax.swing.*;
+import java.util.*;
 import java.util.concurrent.RecursiveAction;
 
 public class Crawler extends RecursiveAction {
@@ -108,6 +108,7 @@ public class Crawler extends RecursiveAction {
         HashMap<String, Integer> lemmaList = new HashMap<>();
         LemmaMaker lemmaMaker = new LemmaMaker();
         lemmaList = lemmaMaker.makeLemmaList(responseBody); // 150-200 ms
+        List<IndexEntity> listIndexEntity = new ArrayList<>();
         for (String lKey : lemmaList.keySet()) {
             List<LemmaEntity> reply;
             LemmaEntity newLemma;
@@ -127,8 +128,11 @@ public class Crawler extends RecursiveAction {
             newIndex.setPageEntity(pe);
             newIndex.setLemmaId(newLemma.getId());
             newIndex.setRank(lemmaList.get(lKey));
-            indexRepository.save(newIndex);
+            listIndexEntity.add(newIndex);
+
         }
+        indexRepository.saveAll(listIndexEntity);
+
     }
 
     public void printDebug(String hyperLink) {

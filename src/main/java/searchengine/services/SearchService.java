@@ -126,11 +126,9 @@ public class SearchService {
             int end3 = end2 + lengthOnePartSnippet/2 > content.length() ? content.length() - 1 : end2 + lengthOnePartSnippet/2 -1;
             snippet = snippet + " " + content.substring(start1, end1) + " <b>" + content.substring(start2, end2) + "</b> "
                     + content.substring(start3, end3);
-
         }
         searchPage.setSnippet(snippet);
         searchPage.setRelevance(ie.getRank());
         return searchPage;
     }
-
 }
