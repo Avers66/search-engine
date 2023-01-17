@@ -1,4 +1,6 @@
 package searchengine.services;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class SearchService {
 
     public ResponseEntity<?> searchResponse(String query, String site, int offset, int limit){
         if (query == "") return ResponseEntity.ok(new SearchError());
+        Logger logger = LogManager.getRootLogger();
+        logger.info("Запуск поискового запроса: " + query);
         SearchResponse searchResponse = new SearchResponse();
         List<SearchPage> listPage = new ArrayList<>();
         List<SiteEntity> listSite = new ArrayList<>();

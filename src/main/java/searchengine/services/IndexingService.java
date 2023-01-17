@@ -1,5 +1,7 @@
 package searchengine.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class IndexingService implements Runnable {
 
     @Autowired
     private PageRepository pageRepository;
-
+    private static Logger logger;
     private final SitesList sites;
     private List<Crawler> listCrawler;
     public static ForkJoinPool pool = new ForkJoinPool();
@@ -57,11 +59,14 @@ public class IndexingService implements Runnable {
         agent = sites.getUserAgent();
         referrer =  sites.getReferrer();
         session = Jsoup.newSession().timeout(3000).userAgent(agent).referrer(referrer);
+        logger = LogManager.getRootLogger();
     }
     public ResponseEntity<?> indexingStart()  {
         if (isIndexing){
+            logger.error("Индексация уже запущена");
             return ResponseEntity.ok(new IndexingError(false, "Индексация уже запущена"));
         }
+        logger.info("Запуск индексации");
         listCrawler = new ArrayList<>();
         isCancelled = false;
         isLimitPage = false;
@@ -83,6 +88,7 @@ public class IndexingService implements Runnable {
         if (!isIndexing){
             return ResponseEntity.ok(new IndexingError(false, "Индексация не запущена"));
         }
+        logger.info("Индексация остановлена");
         isCancelled = true;  //pool.shutdown();
         statusMonitor();
         return ResponseEntity.ok(new IndexingOk(true));
@@ -99,6 +105,7 @@ public class IndexingService implements Runnable {
             }
             statusMonitor();
         } while  (isIndexing);
+        logger.info("Время выполнения индексации " + (System.currentTimeMillis() - start));
         System.out.println("Время выполнения ******* " + (System.currentTimeMillis() - start));
 
     }
@@ -166,6 +173,7 @@ public class IndexingService implements Runnable {
             if (page.indexOf(siteURL) == 0) siteFromConfig = site;
         }
         if (siteFromConfig == null) return ResponseEntity.ok(new IndexingError(false, error));
+        logger.info("Индексация страницы " + page);
         SiteEntity se;
         List<SiteEntity> listSE = siteRepository.findByName(siteFromConfig.getName());
         if (listSE.isEmpty()) se = initTableSite(siteFromConfig);

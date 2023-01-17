@@ -1,5 +1,7 @@
 package searchengine.services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,6 +33,7 @@ public class Crawler extends RecursiveAction {
     private String responseBody = "";
     private String responseMessage = "";
     private int responseCode = 0;
+    private Logger logger;
 
     public Crawler(String hyperLink, int level, IndexingSettings config) {
         this.hyperLink = hyperLink.trim().toLowerCase().replaceAll("www.","");
@@ -47,6 +50,7 @@ public class Crawler extends RecursiveAction {
 
     @Override
     protected void compute() {
+        logger = LogManager.getRootLogger();
         int recursionLevelLimit = 199;
         String domain = se.getUrl();
         List<Crawler> tasksList = new ArrayList<>();
@@ -85,6 +89,7 @@ public class Crawler extends RecursiveAction {
         try {
             connection.method(get).execute();
         } catch (Exception ex) {
+            logger.error(ex.getMessage() + " Страница недоступна " + hyperLink);
             System.out.println(ex.getMessage() + " Страница недоступна " + hyperLink);
             return null;
         }
@@ -136,6 +141,7 @@ public class Crawler extends RecursiveAction {
     }
 
     public void printDebug(String hyperLink) {
+        logger.info(pageRepository.count() + " " + hyperLink + " " + responseCode);
         System.out.println(pageRepository.count() + " "
                             + hyperLink + " "
                             + responseCode + " "

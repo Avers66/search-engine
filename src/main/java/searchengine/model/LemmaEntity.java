@@ -26,7 +26,7 @@ public class LemmaEntity  {
         private SiteEntity siteEntity;
 
         //@Column(nullable = false)
-        @Column(columnDefinition = "varchar(255) NOT NULL, INDEX idx_lemma (lemma(20))")
+        @Column(columnDefinition = "varchar(255) NOT NULL, UNIQUE KEY (lemma(20), site_id)")
         private String lemma;
 
         @Column(nullable = false)

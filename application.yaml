@@ -13,7 +13,9 @@ spring:
     hibernate:
       ddl-auto:  update # create-drop || update
     show-sql:  false # false || true
-
+logging:
+  file:
+    name: application.log
 
 # example values
 

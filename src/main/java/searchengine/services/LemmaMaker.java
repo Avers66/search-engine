@@ -16,8 +16,6 @@ public class LemmaMaker {
     Pattern pattern = Pattern.compile(regex);
     List<String> wordBuffer;
     public HashMap<String, Integer> makeLemmaList(String text) {
-
-
         HashMap<String, Integer> lemmaList = new HashMap<>();
         try {
             luceneMorph = new RussianLuceneMorphology();
