@@ -39,9 +39,13 @@ public class SearchService {
         Set<String> searchLemmaList = lemmaMaker.makeLemmaList(query).keySet();
         if (site.matches("all")) listSite = siteRepository.findAll();
         else listSite = siteRepository.findByUrl(site.replaceAll("www.", ""));
-        if (listSite.isEmpty()) return ResponseEntity.ok(new SearchError("Отсутствуют индексированные сайты"));
+        if (listSite.isEmpty()) {
+            logger.error("Отсутствуют индексированные сайты");
+            return ResponseEntity.ok(new SearchError("Отсутствуют индексированные сайты"));
+        }
         for (SiteEntity se : listSite) {
             if (se.getStatus() == StatusType.INDEXING || se.getStatus() == StatusType.FAILED) {
+                logger.error("Индексация " + se.getName() + " не закончена");
                 return ResponseEntity.ok(new SearchError("Индексация " + se.getName() + " не закончена"));
             }
             int limitLemmaFrequency = pageRepository.countBySiteEntity(se)/5;

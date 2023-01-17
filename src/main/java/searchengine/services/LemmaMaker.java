@@ -1,5 +1,6 @@
 package searchengine.services;
 import net.bytebuddy.matcher.StringMatcher;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.morphology.LuceneMorphology;
 import org.apache.lucene.morphology.russian.RussianLuceneMorphology;
 
@@ -15,6 +16,7 @@ public class LemmaMaker {
     String regex = "[А-Яа-яЁё]{2,20}";
     Pattern pattern = Pattern.compile(regex);
     List<String> wordBuffer;
+    Logger logger;
     public HashMap<String, Integer> makeLemmaList(String text) {
         HashMap<String, Integer> lemmaList = new HashMap<>();
         try {
@@ -34,6 +36,7 @@ public class LemmaMaker {
                 }
             }
         } catch (IOException ex) {
+            logger.error(ex.getMessage());
             ex.getMessage();
         }
         //System.out.println(lemmaList);
@@ -59,7 +62,9 @@ public class LemmaMaker {
                     };
                 }
             }
-        } catch (IOException ex) {ex.getMessage();}
+        } catch (IOException ex) {
+            logger.error(ex.getMessage());
+            ex.getMessage();}
         return position;
     }
 }

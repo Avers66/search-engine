@@ -86,6 +86,7 @@ public class IndexingService implements Runnable {
 
     public ResponseEntity<?> indexingStop() {
         if (!isIndexing){
+            logger.error("Индексация не запущена");
             return ResponseEntity.ok(new IndexingError(false, "Индексация не запущена"));
         }
         logger.info("Индексация остановлена");
