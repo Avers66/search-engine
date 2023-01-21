@@ -30,6 +30,6 @@ indexing-settings:
   userAgent: SESearchBot
   referrer: http://www.google.com
   pageNumberLimit: 10000 # total number for indexed pages
-  delayCrawler: 500 # page scanning delay (ms)
+  delayCrawler: 150 # page scanning delay (ms)
 
 

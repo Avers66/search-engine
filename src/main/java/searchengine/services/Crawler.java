@@ -142,12 +142,12 @@ public class Crawler extends RecursiveAction {
 
     public void printDebug(String hyperLink) {
         logger.info(pageRepository.count() + " " + hyperLink + " " + responseCode);
-        System.out.println(pageRepository.count() + " "
-                            + hyperLink + " "
-                            + responseCode + " "
-                            + responseMessage + " уровень_"
-                            + level + " "
-                            + responseBody.length() + "_байт"); //debugging
+//        System.out.println(pageRepository.count() + " "
+//                            + hyperLink + " "
+//                            + responseCode + " "
+//                            + responseMessage + " уровень_"
+//                            + level + " "
+//                            + responseBody.length() + "_байт"); //debugging
     }
     public SiteEntity getSe() {return se;}
 }
